@@ -9,8 +9,8 @@ const app = express()
 const {PORT, DB_PASSWORD, DB_USER} = process.env;
 const encodedPassword = encodeURIComponent(DB_PASSWORD);
 const dbURL = `mongodb+srv://${DB_USER}:${encodedPassword}@cluster0.s8uvz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
-mongoose.connect(dbURL).then(function(connection){
-    console.log("connection success")
+mongoose.connect(dbURL).then(function(){
+    console.log("connection success3")
 })
 
 app.use(express.json());// to get data from user, is an example for userDefineMiddleware

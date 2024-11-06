@@ -2,10 +2,13 @@ const getAllFactory = function(ElementModel) {
     return async function (req,res){
         try{
          const elementDetails = await ElementModel.find()
-         res.status(200).json({
-             status:"success",
-             message:elementDetails
-         })
+         if(elementDetails.length == 0){
+            throw new Error("No Elements Found");
+        }
+        res.status(200).json({
+            status:"success",
+            message:elementDetails
+        })
         }catch(err){
              res.status(404).json({
                  status:"failure",
@@ -39,14 +42,14 @@ const getByIdFactory = function(ElementModel){
         try{
             const elementId = req.params.elementId;
             const elementDetails = await ElementModel.findById(elementId);
-        if(elementDetails == "no user found"){
-            throw new Error(`user with ${elementId} not found`)
-        }else{
-            res.status(200).json({
-                status:"success",
-                message:elementDetails
-            })
-        }
+            if(elementDetails == null){
+                throw new Error(`Element with id: ${elementId} not found`)
+            }else{
+                res.status(200).json({
+                    status:"success",
+                    message:elementDetails
+                })
+            }
         }catch(err){
             res.status(404).json({
                 status:"failure",
@@ -61,14 +64,19 @@ const deleteByIdFactory = function(ElementModel){
         let { elementId } = req.params
         try{
             let Element = await ElementModel.findByIdAndDelete(elementId);
-            res.status(200).json({
-                status:"success",
-                message:Element,
-            })
+            if(Element == null){
+                throw new Error(`Element with id: ${elementId} not found to Delete`)
+            }else{
+                res.status(200).json({
+                    status:"success",
+                    message:"Deleted Successfully",
+                    deletedElement:Element,
+                })
+            }            
         }catch(err){
             res.status(404).json({
                 status:"failure",
-                message: `Element with id: ${elementId} not found to Delete`
+                message: err.message, 
             })
         }
     }    

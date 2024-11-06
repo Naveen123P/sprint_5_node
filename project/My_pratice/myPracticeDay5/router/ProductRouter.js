@@ -28,7 +28,7 @@ const getAllProductsHandler = async function(req,res){
             queryResProm = queryResProm.select(selectQuery);
         }
 
-        const productDetails = await queryResProm;
+        let productDetails = await queryResProm;
         
         res.status(200).json({
             status:"success",
@@ -49,7 +49,7 @@ const getAllProductsHandler = async function(req,res){
 
 ProductRouter.get("/", getAllProductsHandler);
 ProductRouter.post("/", createProductHandler);
-ProductRouter.get("/:productId",getProductByIdHandler);
-ProductRouter.delete("/:productId",deleteProductByIdHandler);
+ProductRouter.get("/:elementId",getProductByIdHandler);
+ProductRouter.delete("/:elementId",deleteProductByIdHandler);
 
 module.exports = ProductRouter;

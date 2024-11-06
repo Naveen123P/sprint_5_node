@@ -38,7 +38,7 @@ const createFactory = function(ElementModel){
 const getByIdFactory = (ElementModel)=>{
     return async function (req,res){
         try{
-            const elementId = req.params.elementId;
+            const elementId = req.params;
             const elementDetails = await ElementModel.findById(elementId);
         if(elementDetails == "no element found"){
             throw new Error(`element with ${elementId} not found`)
